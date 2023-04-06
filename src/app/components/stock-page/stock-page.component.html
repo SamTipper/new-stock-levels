@@ -7,6 +7,25 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <table mat-table [dataSource]="products" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let product"> {{ product.name }} </td>
+        </ng-container>
+      
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="Quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let product"> {{ product.quantity }} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
+    </table>
 </body>
 </html>
