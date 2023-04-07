@@ -14,13 +14,14 @@ export class ProductService {
   loadProducts(products: string): void {
     const productsObj: object = JSON.parse(products);
     for (const [name, quantity] of Object.entries(productsObj)){
-      this.products.push(new Product(name, quantity));
+      this.products.push(new Product(name, quantity, false));
     }
     this.productChanges.emit(this.products);
   }
 
   addProduct(productName: string, productQuantity: number): void{
-    this.products.push(new Product(productName, productQuantity));
+    this.products.unshift(new Product(productName, productQuantity, true));
+    console.log(this.products);
     this.productChanges.emit(this.products);
   }
 
@@ -34,4 +35,7 @@ export class ProductService {
   capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  
+
 }

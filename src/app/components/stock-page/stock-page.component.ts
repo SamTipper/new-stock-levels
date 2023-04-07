@@ -29,6 +29,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
         this.productService.productChanges.subscribe(
           (products: Product[]) => {
             this.products = products;
+            this.table.renderRows();
           }
         )
       );
@@ -50,7 +51,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
     );
   }
 
-  onAddNewProduct(){
+  onAddNewProduct(): void{
     const productName = this.newProductForm.value.productName; const productQuantity = this.newProductForm.value.productQuantity;
     let newItemSubscription: Subscription;
     this.newProductForm.reset();
@@ -59,8 +60,6 @@ export class StockPageComponent implements OnInit, OnDestroy{
       this.http.addNewItem({item: this.productService.capitalizeFirstLetter(productName), quantity: productQuantity})
         .subscribe((res) => {
           if (res.status === 201){
-            this.productService.addProduct(productName, productQuantity);
-            this.table.renderRows();
             newItemSubscription.unsubscribe();
           }
         },
@@ -71,7 +70,12 @@ export class StockPageComponent implements OnInit, OnDestroy{
       );
   }
 
-  deleteProduct(product: Product){
+  doneEditingProduct(product: Product): void{
+    product.newProduct = false;
+    this.table.renderRows();
+  }
+
+  deleteProduct(product: Product): void{
     this.productService.deleteProduct(product);
   }
 }
