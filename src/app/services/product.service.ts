@@ -7,7 +7,7 @@ import { Product } from '../models/product';
 export class ProductService {
   products: Product[] = [];
 
-  productNotifier: EventEmitter<boolean> = new EventEmitter<boolean>();
+  productChanges: EventEmitter<Product[]> = new EventEmitter<Product[]>();
 
   constructor() { }
 
@@ -16,7 +16,18 @@ export class ProductService {
     for (const [name, quantity] of Object.entries(productsObj)){
       this.products.push(new Product(name, quantity));
     }
+    this.productChanges.emit(this.products);
+  }
 
-    this.productNotifier.emit(true);
+  addProduct(productName: string, productQuantity: number): void{
+    this.products.push(new Product(productName, productQuantity));
+    this.productChanges.emit(this.products);
+  }
+
+  deleteProduct(product: Product): void{
+    this.products = this.products.filter(
+      arrProduct => arrProduct.name !== product.name
+    );
+    this.productChanges.emit(this.products);
   }
 }

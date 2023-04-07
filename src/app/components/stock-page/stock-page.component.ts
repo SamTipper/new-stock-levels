@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { HttpService } from 'src/app/services/http.service';
 import { ProductService } from 'src/app/services/product.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-stock-page',
@@ -12,12 +13,14 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./stock-page.component.css']
 })
 export class StockPageComponent implements OnInit, AfterViewInit, OnDestroy{
-  subscriptions: Subscription[] = [];
-  products: Product[];
+  subscriptions:  Subscription[] = [];
+  products:       Product[];
+  newProductForm: FormGroup;
 
   tableHeaders: string[] = ["Name", "Quantity"];
-  dataSource: MatTableDataSource<Product>;
-  @ViewChild(MatTable) productsTableRef: MatTable<any>;
+  dataSource:   MatTableDataSource<Product>;
+  
+  @ViewChild(MatTable) table: MatTable<Product>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -27,17 +30,21 @@ export class StockPageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   ngOnInit(): void{
     this.http.getProducts();
-    this.products = this.productService.products;
+
+    this.newProductForm = new FormGroup({
+      productName: new FormControl(null, Validators.required),
+      productQuantity: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")])
+    });
   }
 
   ngAfterViewInit(): void {
     this.subscriptions.push(
-      this.productService.productNotifier.subscribe(
-        (_: boolean) => {
+      this.productService.productChanges.subscribe(
+        (products: Product[]) => {
+          this.products = products;
           this.dataSource = new MatTableDataSource<Product>(this.products);
           this.dataSource.paginator = this.paginator;
-          console.log(this.dataSource, this.paginator);
-          this.productsTableRef.renderRows();
+          this.table.renderRows();
         }
       )
     );
@@ -49,5 +56,22 @@ export class StockPageComponent implements OnInit, AfterViewInit, OnDestroy{
         subscription.unsubscribe();
       }
     );
+  }
+
+  onAddNewProduct(){
+    const name = this.newProductForm.value.productName; const quant = this.newProductForm.value.productQuantity;
+    this.newProductForm.reset();
+    this.productService.addProduct(name, quant);
+
+    // this.httpService.addNewItem({item: this.capitalizeFirstLetter(name), quantity: quant})
+    //   .subscribe((res) => {
+    //     if (res.status === 200){
+    //       this.getStock()
+    //     }
+    // });
+  }
+
+  deleteProduct(product: Product){
+    this.productService.deleteProduct(product);
   }
 }
