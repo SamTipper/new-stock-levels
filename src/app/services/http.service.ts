@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductService } from './product.service';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,25 @@ export class HttpService {
       headers: {"Api-Key": localStorage.getItem("api-key")},
       observe: "response",
       responseType: "text"
-     })
+     });
+  }
+
+  updateStock(){
+    let stock = {};
+
+    this.productService.products.forEach(
+      (product: Product) => {
+        stock[product.name] = product.quantity;
+      }
+    );
+
+    return this.http.post(
+      "https://API.samtipper.repl.co/update-stock",
+      stock,
+     {
+      headers: {"Api-Key": localStorage.getItem("api-key")},
+      observe: "response",
+      responseType: "text"
+     });
   }
 }

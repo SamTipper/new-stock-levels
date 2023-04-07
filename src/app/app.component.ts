@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductService } from './services/product.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { HttpService } from './services/http.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent {
   activeRoute: string;
 
   constructor(
+    private http: HttpService,
     private productService: ProductService,
     private router: Router){
     this.productService.productChanges.subscribe(
@@ -34,6 +36,12 @@ export class AppComponent {
   }
 
   saveProducts(){
-    
+    this.http.updateStock().subscribe(
+      (res) => {
+        if (res.status === 200){
+          
+        }
+      }
+    );
   }
 }
