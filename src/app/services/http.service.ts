@@ -63,22 +63,26 @@ export class HttpService {
   }
 
   updateStock(){
-    let stock = {};
-
-    this.productService.products.forEach(
-      (product: Product) => {
-        stock[product.name] = product.quantity;
-      }
-    );
-
     return this.http.post(
       "https://API.samtipper.repl.co/update-stock",
-      stock,
+      this.productService.productArrayToObject("stock"),
      {
       headers: {"Api-Key": localStorage.getItem("api-key")},
       observe: "response",
       responseType: "text"
      }
+    );
+  }
+
+  saveShoppingList(){
+    return this.http.post(
+      "https://api.samtipper.repl.co/update-list",
+      this.productService.productArrayToObject("shopping"), 
+      {
+        headers: {"Api-Key": localStorage.getItem("api-key")}, 
+        observe: "response", 
+        responseType: "text"
+      }
     );
   }
 }

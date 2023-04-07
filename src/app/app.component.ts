@@ -39,7 +39,17 @@ export class AppComponent {
     this.http.updateStock().subscribe(
       (res) => {
         if (res.status === 200){
-          
+
+        }
+      }
+    );
+  }
+
+  saveShoppingList(){
+    this.http.saveShoppingList().subscribe(
+      (res) => {
+        if (res.status === 200){
+
         }
       }
     );

@@ -14,10 +14,10 @@
     <div class="button-box">
       <!-- STOCK PAGE BUTTONS -->
       <span *ngIf="activeRoute === '/stock' || activeRoute === '/'">
-        <button mat-raised-button color="warn" (click)="saveProducts()">
+        <button mat-raised-button color="accent" (click)="saveProducts()">
           Save
         </button>
-        <button mat-raised-button color="warn" (click)="addBlankProduct()">
+        <button mat-raised-button color="accent" (click)="addBlankProduct()">
           Add Product
         </button>
         <span class="divider">|</span>
@@ -25,22 +25,25 @@
 
       <!-- SHOPPING PAGE BUTTONS -->
       <span *ngIf="activeRoute === '/shopping'">
-        <button mat-raised-button color="warn" (click)="null">
+        <button mat-raised-button color="accent" (click)="saveShoppingList()">
           Save
         </button>
-        <button mat-raised-button color="warn" (click)="null">
+        <button mat-raised-button color="accent" (click)="null">
+          Reset
+        </button>
+        <button mat-raised-button color="accent" (click)="null">
           Shopping Done
         </button>
         <span class="divider">|</span>
       </span>
 
-      <button mat-raised-button color="primary" [routerLinkActive]="['active']">
+      <button mat-raised-button [color]="activeRoute === '/stock' ? 'primary' : 'warn'" [routerLinkActive]="['active']">
         <span [routerLink]="['stock']">Stock</span>
       </button>
-      <button mat-raised-button color="primary" [routerLinkActive]="['active']">
+      <button mat-raised-button [color]="activeRoute === '/shopping' ? 'primary' : 'warn'" [routerLinkActive]="['active']">
         <span [routerLink]="['shopping']">Shopping</span>
       </button>
-      <button mat-raised-button color="primary" [routerLinkActive]="['active']">
+      <button mat-raised-button [color]="activeRoute === '/access' ? 'primary' : 'warn'" [routerLinkActive]="['active']">
         <span [routerLink]="['access']">Access</span>
       </button>
     </div>

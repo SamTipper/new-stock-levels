@@ -19,7 +19,7 @@ export class ProductService {
         if (mode === "stock"){
           this.products.push(new Product(name, quantity, false));
         } 
-        else if (mode === "shoppping"){
+        else if (mode === "shopping"){
           this.shoppingList.push(new Product(name, quantity, false));
         }
       }
@@ -38,6 +38,16 @@ export class ProductService {
       arrProduct => arrProduct.name !== product.name
     );
     this.productChanges.emit(this.products);
+  }
+
+  productArrayToObject(mode: string): object{
+    let newObj = {};
+
+    for (const product of mode === "stock" ? this.products : this.shoppingList){
+      newObj[product['name']] = product['quantity'];
+    }
+
+    return newObj;
   }
 
   capitalizeFirstLetter(string: string): string{

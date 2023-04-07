@@ -33,7 +33,7 @@ export class ShoppingComponent implements OnInit, OnDestroy{
       this.http.getShoppingList().subscribe(
         (res) => {
           if (res.status === 200){
-            this.productService.loadProducts(res.body, "shoppping");
+            this.productService.loadProducts(res.body, "shopping");
           }
         }
       )
@@ -47,6 +47,16 @@ export class ShoppingComponent implements OnInit, OnDestroy{
       }
     );
     this.productService.shoppingList = [];
+  }
+
+  saveShoppingList(){
+    this.http.saveShoppingList().subscribe(
+      (res) => {
+        if (res.status === 200){
+
+        }
+      }
+    );
   }
 
 }
