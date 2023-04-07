@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
@@ -12,42 +12,34 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './stock-page.component.html',
   styleUrls: ['./stock-page.component.css']
 })
-export class StockPageComponent implements OnInit, AfterViewInit, OnDestroy{
+export class StockPageComponent implements OnInit, OnDestroy{
   subscriptions:  Subscription[] = [];
-  products:       Product[];
+  products:       Product[] = [];
   newProductForm: FormGroup;
 
   tableHeaders: string[] = ["Name", "Quantity"];
   dataSource:   MatTableDataSource<Product>;
   
   @ViewChild(MatTable) table: MatTable<Product>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private http: HttpService,
-    private productService: ProductService
-    ) { }
+    private productService: ProductService){
+      this.subscriptions.push(
+        this.productService.productChanges.subscribe(
+          (products: Product[]) => {
+            this.products = products;
+          }
+        )
+      );
+    }
 
   ngOnInit(): void{
     this.http.getProducts();
-
     this.newProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
       productQuantity: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")])
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.subscriptions.push(
-      this.productService.productChanges.subscribe(
-        (products: Product[]) => {
-          this.products = products;
-          this.dataSource = new MatTableDataSource<Product>(this.products);
-          this.dataSource.paginator = this.paginator;
-          this.table.renderRows();
-        }
-      )
-    );
   }
 
   ngOnDestroy(): void {
@@ -62,6 +54,7 @@ export class StockPageComponent implements OnInit, AfterViewInit, OnDestroy{
     const name = this.newProductForm.value.productName; const quant = this.newProductForm.value.productQuantity;
     this.newProductForm.reset();
     this.productService.addProduct(name, quant);
+    this.table.renderRows();
 
     // this.httpService.addNewItem({item: this.capitalizeFirstLetter(name), quantity: quant})
     //   .subscribe((res) => {

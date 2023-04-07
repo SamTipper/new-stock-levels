@@ -5,7 +5,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductService {
-  products: Product[] = [];
+  private products: Product[] = [];
 
   productChanges: EventEmitter<Product[]> = new EventEmitter<Product[]>();
 

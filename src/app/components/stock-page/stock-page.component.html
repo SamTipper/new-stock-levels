@@ -20,7 +20,7 @@
                 <input matInput placeholder="12" formControlName="productQuantity">
             </mat-form-field>
         
-            <button mat-raised-button color="primary">
+            <button mat-raised-button color="primary" [disabled]="newProductForm.invalid">
                 Add Product
             </button>
         </form>
@@ -60,10 +60,5 @@
         <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
         <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
     </table>
-
-    <mat-paginator 
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons>
-    </mat-paginator>
 </body>
 </html>

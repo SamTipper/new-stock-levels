@@ -13,7 +13,7 @@ export class HttpService {
     ) { }
 
   getProducts(){
-    const getProducts = this.http.get(
+    return this.http.get(
       "https://API.samtipper.repl.co/stock-list",
      {
       headers: {"Api-Key": localStorage.getItem("api-key")},
@@ -23,9 +23,8 @@ export class HttpService {
       (res) => {
         if (res.status === 200){
           this.productService.loadProducts(res.body);
-          getProducts.unsubscribe();
         }
       }
-     );
+    );
   }
 }
