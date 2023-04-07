@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Product } from '../models/product';
 
 @Injectable({
@@ -7,6 +7,8 @@ import { Product } from '../models/product';
 export class ProductService {
   products: Product[] = [];
 
+  productNotifier: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor() { }
 
   loadProducts(products: string): void {
@@ -14,5 +16,7 @@ export class ProductService {
     for (const [name, quantity] of Object.entries(productsObj)){
       this.products.push(new Product(name, quantity));
     }
+
+    this.productNotifier.emit(true);
   }
 }
