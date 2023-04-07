@@ -30,7 +30,7 @@ export class HttpService {
 
   addNewItem(item: object){
     return this.http.post(
-      "https://api.samtipper.repl.co/add-item",
+      "https://API.samtipper.repl.co/add-item",
       item,
       {
         headers: {"Api-Key": localStorage.getItem("api-key")},

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatTable } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { HttpService } from 'src/app/services/http.service';
@@ -18,8 +17,6 @@ export class StockPageComponent implements OnInit, OnDestroy{
   newProductForm: FormGroup;
 
   tableHeaders: string[] = ["Name", "Quantity"];
-  dataSource:   MatTableDataSource<Product>;
-  
   @ViewChild(MatTable) table: MatTable<Product>;
 
   constructor(
@@ -51,15 +48,14 @@ export class StockPageComponent implements OnInit, OnDestroy{
     );
   }
 
-  onAddNewProduct(): void{
-    const productName = this.newProductForm.value.productName; const productQuantity = this.newProductForm.value.productQuantity;
-    let newItemSubscription: Subscription;
-    this.newProductForm.reset();
-
-    newItemSubscription = 
-      this.http.addNewItem({item: this.productService.capitalizeFirstLetter(productName), quantity: productQuantity})
+  onAddNewProduct(product: Product){
+    const newItemSubscription = 
+      this.http.addNewItem({item: this.productService.capitalizeFirstLetter(product.name), quantity: product.quantity})
         .subscribe((res) => {
           if (res.status === 201){
+            this.table.renderRows();
+            newItemSubscription.unsubscribe();
+          } else {
             newItemSubscription.unsubscribe();
           }
         },
@@ -71,8 +67,10 @@ export class StockPageComponent implements OnInit, OnDestroy{
   }
 
   doneEditingProduct(product: Product): void{
-    product.newProduct = false;
-    this.table.renderRows();
+    if (product.name !== ""){
+      product.newProduct = false;
+      this.onAddNewProduct(product);
+    }
   }
 
   deleteProduct(product: Product): void{

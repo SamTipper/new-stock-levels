@@ -7,28 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        
-    </div>
-
-    <div class="add-product-fields">
-        <form [formGroup]="newProductForm" (ngSubmit)="onAddNewProduct()">
-            <mat-form-field appearance="outline">
-                <mat-label>Product</mat-label>
-                <input matInput placeholder="Eggs" formControlName="productName">
-            </mat-form-field>
-        
-            <mat-form-field appearance="outline">
-                <mat-label>Quantity</mat-label>
-                <input matInput placeholder="12" formControlName="productQuantity">
-            </mat-form-field>
-        
-            <button mat-raised-button color="primary" [disabled]="newProductForm.invalid">
-                Add Product
-            </button>
-        </form>
-    </div>
-
+    
     <table mat-table [dataSource]="products" class="mat-elevation-z8">
         <ng-container matColumnDef="Name">
           <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
@@ -36,8 +15,10 @@
             <span *ngIf="!product.newProduct">
                 {{ product.name }}
             </span>
-            <input *ngIf="product.newProduct" [(ngModel)]="product.name">
-            <mat-icon *ngIf="product.newProduct" (click)="doneEditingProduct(product)">done</mat-icon>
+            <mat-form-field class="example-full-width" *ngIf="product.newProduct">
+                <input matInput type="text" placeholder="Product Name" [(ngModel)]="product.name">
+            </mat-form-field>
+            <mat-icon class="tick-button" *ngIf="product.newProduct" (click)="doneEditingProduct(product)">done</mat-icon>
           </td>
         </ng-container>
       

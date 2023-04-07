@@ -1,14 +1,12 @@
 .example-full-width {
-    width: 95%;
+    width: 90%;
 }
-.add-product-fields{
-    margin-top: 1%;
-    margin-left: 2%;
-}
-.add-product-button{
+.tick-button{
+    position: absolute;
     font-size: 50px;
     height: 50px ;
     width: 50px;
+    cursor: pointer;
 }
 .darken-header{
     color: purple;
