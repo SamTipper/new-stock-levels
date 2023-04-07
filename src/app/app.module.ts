@@ -17,12 +17,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { StockPageComponent } from './components/stock-page/stock-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingComponent } from './components/shopping/shopping.component';
+import { AccessComponent } from './components/access/access.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockPageComponent,
-    ShoppingComponent
+    ShoppingComponent,
+    AccessComponent
   ],
   imports: [
     BrowserModule,
