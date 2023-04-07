@@ -24,7 +24,6 @@ export class AppComponent {
     this.router.events.subscribe(
       (event) => {
         if (event instanceof NavigationEnd){
-          console.log(event.url);
           this.activeRoute = event.url;
         }
       }

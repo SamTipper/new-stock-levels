@@ -33,7 +33,12 @@ export class StockPageComponent implements OnInit, OnDestroy{
     }
 
   ngOnInit(): void{
-    this.http.getProducts();
+    if (!this.productService.products.length){
+      this.http.getProducts();
+    } else {
+      this.products = this.productService.products;
+    }
+    
     this.newProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
       productQuantity: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")])
@@ -48,7 +53,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
     );
   }
 
-  onAddNewProduct(product: Product){
+  onAddNewProduct(product: Product): void{
     const newItemSubscription = 
       this.http.addNewItem({item: this.productService.capitalizeFirstLetter(product.name), quantity: product.quantity})
         .subscribe((res) => {

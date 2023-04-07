@@ -35,9 +35,7 @@
                     [value]="product.quantity"
                 >
             </mat-form-field>
-            <button mat-menu-item (click)="deleteProduct(product)">
-                <mat-icon>delete</mat-icon>
-            </button>
+            <mat-icon class="tick-button" (click)="deleteProduct(product)">delete</mat-icon>
         </td>
         </ng-container>
 

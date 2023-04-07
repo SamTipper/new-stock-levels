@@ -16,11 +16,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
 import { StockPageComponent } from './components/stock-page/stock-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShoppingComponent } from './components/shopping/shopping.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StockPageComponent
+    StockPageComponent,
+    ShoppingComponent
   ],
   imports: [
     BrowserModule,
