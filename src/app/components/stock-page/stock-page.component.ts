@@ -38,7 +38,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
     } else {
       this.products = this.productService.products;
     }
-    
+
     this.newProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
       productQuantity: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")])
@@ -79,6 +79,15 @@ export class StockPageComponent implements OnInit, OnDestroy{
   }
 
   deleteProduct(product: Product): void{
-    this.productService.deleteProduct(product);
+    this.http.deleteItem(product).subscribe(
+      (res) => {
+        if (res.status === 204){
+          this.productService.deleteProduct(product);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

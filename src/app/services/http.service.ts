@@ -10,8 +10,7 @@ export class HttpService {
 
   constructor(
     private http: HttpClient,
-    private productService: ProductService
-    ) { }
+    private productService: ProductService) { }
 
   getProducts(){
     return this.http.get(
@@ -37,7 +36,8 @@ export class HttpService {
         headers: {"Api-Key": localStorage.getItem("api-key")},
         observe: "response", 
         responseType: "text"
-      });
+      }
+    );
   }
 
   getShoppingList(){
@@ -47,7 +47,19 @@ export class HttpService {
       headers: {"Api-Key": localStorage.getItem("api-key")},
       observe: "response",
       responseType: "text"
-     });
+     }
+    );
+  }
+
+  deleteItem(product: Product){
+    return this.http.delete(
+      "https://API.samtipper.repl.co/delete-item",
+      {
+        headers: {"Api-Key": localStorage.getItem("api-key"), product: product.name},
+        observe: "response",
+        responseType: "text"
+      }
+    );
   }
 
   updateStock(){
@@ -66,6 +78,7 @@ export class HttpService {
       headers: {"Api-Key": localStorage.getItem("api-key")},
       observe: "response",
       responseType: "text"
-     });
+     }
+    );
   }
 }
