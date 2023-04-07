@@ -12,7 +12,7 @@
     <span class="margin-right" *ngIf="stockLength">Stock Levels | {{ stockLength }} Unique Products!</span>
 
     <div class="button-box">
-      <button  mat-raised-button color="warn" *ngIf="activeRoute === '/stock'" (click)="addBlankProduct()">
+      <button  mat-raised-button color="warn" *ngIf="activeRoute === '/stock' || activeRoute === '/'" (click)="addBlankProduct()">
         Add Product
       </button>
       <button mat-raised-button color="primary" [routerLinkActive]="['active']">

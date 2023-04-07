@@ -16,8 +16,8 @@ export class AppComponent {
     private productService: ProductService,
     private router: Router){
     this.productService.productChanges.subscribe(
-      (products: Product[]) => {
-        this.stockLength = products.length;
+      (_) => {
+        this.stockLength = this.productService.products.length
       }
     );
 

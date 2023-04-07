@@ -22,7 +22,7 @@ export class HttpService {
      }).subscribe(
       (res) => {
         if (res.status === 200){
-          this.productService.loadProducts(res.body);
+          this.productService.loadProducts(res.body, "stock");
         }
       }
     );
@@ -37,5 +37,15 @@ export class HttpService {
         observe: "response", 
         responseType: "text"
       });
+  }
+
+  getShoppingList(){
+    return this.http.get(
+      "https://API.samtipper.repl.co/shopping-list",
+     {
+      headers: {"Api-Key": localStorage.getItem("api-key")},
+      observe: "response",
+      responseType: "text"
+     })
   }
 }

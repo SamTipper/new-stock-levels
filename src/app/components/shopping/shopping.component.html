@@ -1,1 +1,44 @@
-<p>shopping works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table mat-table [dataSource]="products" class="mat-elevation-z8">
+        <ng-container matColumnDef="Name">
+          <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let product">
+            <span *ngIf="!product.newProduct">
+                {{ product.name }}
+            </span>
+            <mat-form-field class="example-full-width" *ngIf="product.newProduct">
+                <input matInput type="text" placeholder="Product Name" [(ngModel)]="product.name">
+            </mat-form-field>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="Quantity">
+          <th class="darken-header" mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let product">
+            <mat-form-field class="example-full-width">
+                <input 
+                    matInput
+                    type="number" 
+                    contenteditable="true"
+                    ngDefaultControl 
+                    [(ngModel)]="product.quantity"
+                    [value]="product.quantity"
+                >
+            </mat-form-field>
+        </td>
+        </ng-container>
+
+      
+        <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
+        <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
+    </table>
+</body>
+</html>
