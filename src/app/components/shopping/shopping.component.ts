@@ -30,14 +30,14 @@ export class ShoppingComponent implements OnInit, OnDestroy{
     );
 
     this.subscriptions.push(
-      this.http.getShoppingList().subscribe(
-        (res) => {
-          if (res.status === 200){
-            this.productService.loadProducts(res.body, "shopping");
-          }
+      this.productService.shoppingListReset.subscribe(
+        (_) => {
+          this.getShoppingList();
         }
       )
-    );
+    )
+
+    this.getShoppingList();
   }
 
   ngOnDestroy(): void{
@@ -46,17 +46,19 @@ export class ShoppingComponent implements OnInit, OnDestroy{
         subscription.unsubscribe();
       }
     );
-    this.productService.shoppingList = [];
   }
 
-  saveShoppingList(){
-    this.http.saveShoppingList().subscribe(
-      (res) => {
-        if (res.status === 200){
-
+  getShoppingList(){
+    this.productService.shoppingList = [];
+    const subscription =
+      this.http.getShoppingList().subscribe(
+        (res) => {
+          if (res.status === 200){
+            this.productService.loadProducts(res.body, "shopping");
+            subscription.unsubscribe();
+          }
         }
-      }
-    );
+      );
   }
 
 }

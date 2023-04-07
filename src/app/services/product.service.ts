@@ -9,6 +9,7 @@ export class ProductService {
   shoppingList: Product[] = [];
 
   productChanges: EventEmitter<Product[]> = new EventEmitter<Product[]>();
+  shoppingListReset: EventEmitter<null> = new EventEmitter<null>();
 
   constructor() { }
 

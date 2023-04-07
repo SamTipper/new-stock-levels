@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { ProductService } from './services/product.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { HttpService } from './services/http.service';
@@ -36,22 +36,37 @@ export class AppComponent {
   }
 
   saveProducts(){
-    this.http.updateStock().subscribe(
-      (res) => {
-        if (res.status === 200){
-
+    const subscription = 
+      this.http.updateStock().subscribe(
+        (res) => {
+          if (res.status === 200){
+            subscription.unsubscribe();
+          }
         }
-      }
-    );
+      );
   }
 
   saveShoppingList(){
-    this.http.saveShoppingList().subscribe(
-      (res) => {
-        if (res.status === 200){
-
+    const subscription = 
+      this.http.saveShoppingList().subscribe(
+        (res) => {
+          if (res.status === 200){
+            subscription.unsubscribe();
+            this.productService.shoppingListReset.emit();
+          }
         }
-      }
-    );
+      );
+  }
+
+  resetShoppingList(){
+    const subscription = 
+      this.http.resetShoppingList().subscribe(
+        (res) => {
+          if (res.status === 200){
+            subscription.unsubscribe();
+            this.productService.shoppingListReset.emit();
+          }
+        }
+      );
   }
 }
