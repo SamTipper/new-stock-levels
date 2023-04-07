@@ -27,7 +27,7 @@ export class ShoppingComponent implements OnInit, OnDestroy{
           this.products = products;
         }
       )
-    )
+    );
 
     this.subscriptions.push(
       this.http.getShoppingList().subscribe(

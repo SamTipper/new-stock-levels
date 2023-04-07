@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ProductService } from './services/product.service';
-import { Product } from './models/product';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -17,7 +16,7 @@ export class AppComponent {
     private router: Router){
     this.productService.productChanges.subscribe(
       (_) => {
-        this.stockLength = this.productService.products.length
+        this.stockLength = this.productService.products.length;
       }
     );
 
@@ -32,5 +31,9 @@ export class AppComponent {
 
   addBlankProduct(){
     this.productService.addProduct("", 1);
+  }
+
+  saveProducts(){
+    
   }
 }

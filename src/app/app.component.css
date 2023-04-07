@@ -12,3 +12,7 @@
 .toolbar{
     background-color: rgb(33, 12, 84);
 }
+.divider{
+    font-size: large;
+    color: white;
+}
