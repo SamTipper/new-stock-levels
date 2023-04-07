@@ -79,15 +79,20 @@ export class StockPageComponent implements OnInit, OnDestroy{
   }
 
   deleteProduct(product: Product): void{
-    this.http.deleteItem(product).subscribe(
-      (res) => {
-        if (res.status === 204){
-          this.productService.deleteProduct(product);
+    const deleteItemSubscription = 
+      this.http.deleteItem(product).subscribe(
+        (res) => {
+          if (res.status === 204){
+            this.productService.deleteProduct(product);
+            deleteItemSubscription.unsubscribe();
+          } else {
+            deleteItemSubscription.unsubscribe();
+          }
+        },
+        (error) => {
+          console.log(error);
+          deleteItemSubscription.unsubscribe();
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
   }
 }
