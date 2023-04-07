@@ -51,17 +51,24 @@ export class StockPageComponent implements OnInit, OnDestroy{
   }
 
   onAddNewProduct(){
-    const name = this.newProductForm.value.productName; const quant = this.newProductForm.value.productQuantity;
+    const productName = this.newProductForm.value.productName; const productQuantity = this.newProductForm.value.productQuantity;
+    let newItemSubscription: Subscription;
     this.newProductForm.reset();
-    this.productService.addProduct(name, quant);
-    this.table.renderRows();
 
-    // this.httpService.addNewItem({item: this.capitalizeFirstLetter(name), quantity: quant})
-    //   .subscribe((res) => {
-    //     if (res.status === 200){
-    //       this.getStock()
-    //     }
-    // });
+    newItemSubscription = 
+      this.http.addNewItem({item: this.productService.capitalizeFirstLetter(productName), quantity: productQuantity})
+        .subscribe((res) => {
+          if (res.status === 201){
+            this.productService.addProduct(productName, productQuantity);
+            this.table.renderRows();
+            newItemSubscription.unsubscribe();
+          }
+        },
+        (error) => {
+          console.log(error);
+          newItemSubscription.unsubscribe();
+        }
+      );
   }
 
   deleteProduct(product: Product){

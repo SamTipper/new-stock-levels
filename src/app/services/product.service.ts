@@ -30,4 +30,8 @@ export class ProductService {
     );
     this.productChanges.emit(this.products);
   }
+
+  capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 }

@@ -1,0 +1,14 @@
+.margin-right{
+    margin-right: 20%;
+    color: white;
+}
+.button-box{
+    position: absolute;
+    right: 0%;
+}button{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.toolbar{
+    background-color: rgb(33, 12, 84);
+}
