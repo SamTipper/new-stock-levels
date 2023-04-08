@@ -96,4 +96,17 @@ export class HttpService {
       }
     );
   }
+
+  shoppingDone(){
+    return this.http.get(
+      "https://api.samtipper.repl.co/shopping-done", 
+      {
+        headers: {"Api-Key": localStorage.getItem("api-key")}, 
+        observe: "response", 
+        responseType: "text"
+      }
+    );
+  }
+
+
 }

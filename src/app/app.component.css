@@ -10,9 +10,17 @@
     margin-right: 5px;
 }
 .toolbar{
-    background-color: rgb(33, 12, 84);
+    background-color: rgb(16, 97, 145);
 }
 .divider{
     font-size: large;
     color: white;
+}
+.route-name{
+    position: absolute;
+    font-size: large;
+    color: white;
+    left: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
 }

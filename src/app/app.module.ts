@@ -18,13 +18,15 @@ import { StockPageComponent } from './components/stock-page/stock-page.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingComponent } from './components/shopping/shopping.component';
 import { AccessComponent } from './components/access/access.component';
+import { RouteTranslatePipe } from './pipes/route-translate.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockPageComponent,
     ShoppingComponent,
-    AccessComponent
+    AccessComponent,
+    RouteTranslatePipe
   ],
   imports: [
     BrowserModule,

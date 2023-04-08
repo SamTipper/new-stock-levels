@@ -7,6 +7,7 @@ import { Product } from '../models/product';
 export class ProductService {
   products: Product[] = [];
   shoppingList: Product[] = [];
+  savedShoppingList: boolean;
 
   productChanges: EventEmitter<Product[]> = new EventEmitter<Product[]>();
   shoppingListReset: EventEmitter<null> = new EventEmitter<null>();
@@ -23,6 +24,8 @@ export class ProductService {
         else if (mode === "shopping"){
           this.shoppingList.push(new Product(name, quantity, false));
         }
+      } else {
+        this.savedShoppingList = quantity; // Is a boolean
       }
     }
     this.productChanges.emit(mode === "stock" ? this.products : this.shoppingList);
