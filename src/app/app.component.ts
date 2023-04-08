@@ -119,6 +119,7 @@ export class AppComponent{
             subscription.unsubscribe();
             this.productService.shoppingListReset.emit();
             this.disableButtons = false;
+            this.productService.products = [];
             this.toastr.success("Shopping done, shopping list has been reset!");
           }
         },

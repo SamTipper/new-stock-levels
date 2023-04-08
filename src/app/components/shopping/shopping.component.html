@@ -30,6 +30,7 @@
                     type="number" 
                     contenteditable="true"
                     ngDefaultControl 
+                    [disabled]="savedShoppingList"
                     [(ngModel)]="product.quantity"
                     [value]="product.quantity"
                 >

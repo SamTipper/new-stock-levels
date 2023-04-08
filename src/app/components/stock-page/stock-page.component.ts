@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTable } from '@angular/material/table';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { HttpService } from 'src/app/services/http.service';
 import { ProductService } from 'src/app/services/product.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-stock-page',
@@ -21,7 +22,8 @@ export class StockPageComponent implements OnInit, OnDestroy{
 
   constructor(
     private http: HttpService,
-    private productService: ProductService){
+    private productService: ProductService,
+    private toastr: ToastrService){
       this.subscriptions.push(
         this.productService.productChanges.subscribe(
           (products: Product[]) => {
@@ -57,24 +59,25 @@ export class StockPageComponent implements OnInit, OnDestroy{
 
   onAddNewProduct(product: Product): void{
     const newItemSubscription = 
-      this.http.addNewItem({item: this.productService.capitalizeFirstLetter(product.name), quantity: product.quantity})
+      this.http.addNewItem({item: product.name, quantity: product.quantity})
         .subscribe((res) => {
           if (res.status === 201){
             this.table.renderRows();
             newItemSubscription.unsubscribe();
-          } else {
-            newItemSubscription.unsubscribe();
+            this.toastr.success("New product created!");
           }
         },
         (error) => {
           console.log(error);
           newItemSubscription.unsubscribe();
+          this.toastr.error("An error has occurred, please try again later.");
         }
       );
   }
 
   doneEditingProduct(product: Product): void{
     if (product.name !== ""){
+      product.name = this.productService.capitalizeFirstLetter(product.name);
       product.newProduct = false;
       this.onAddNewProduct(product);
     }
@@ -87,13 +90,13 @@ export class StockPageComponent implements OnInit, OnDestroy{
           if (res.status === 204){
             this.productService.deleteProduct(product);
             deleteItemSubscription.unsubscribe();
-          } else {
-            deleteItemSubscription.unsubscribe();
+            this.toastr.success("Product deleted successfully!");
           }
         },
         (error) => {
           console.log(error);
           deleteItemSubscription.unsubscribe();
+          this.toastr.error("An error has occurred, please try again later.");
         }
       );
   }

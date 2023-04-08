@@ -10,8 +10,9 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./shopping.component.css']
 })
 export class ShoppingComponent implements OnInit, OnDestroy{
-  subscriptions: Subscription[] = [];
-  products:      Product[];
+  subscriptions:     Subscription[] = [];
+  products:          Product[];
+  savedShoppingList: boolean;
 
   tableHeaders: string[] = ["Name", "Quantity"];
 
@@ -58,6 +59,8 @@ export class ShoppingComponent implements OnInit, OnDestroy{
           if (res.status === 200){
             this.productService.loadProducts(res.body, "shopping");
             subscription.unsubscribe();
+            this.savedShoppingList = this.productService.savedShoppingList;
+            console.log(this.savedShoppingList);
           }
         }
       );
