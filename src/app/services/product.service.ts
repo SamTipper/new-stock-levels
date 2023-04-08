@@ -54,9 +54,7 @@ export class ProductService {
   }
 
   capitalizeFirstLetter(string: string): string{
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    let newString = string.trim();
+    return newString.charAt(0).toUpperCase() + newString.slice(1);
   }
-
-  
-
 }

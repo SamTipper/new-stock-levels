@@ -76,10 +76,12 @@ export class StockPageComponent implements OnInit, OnDestroy{
   }
 
   doneEditingProduct(product: Product): void{
-    if (product.name !== ""){
+    if (product.name.trim() !== ""){
       product.name = this.productService.capitalizeFirstLetter(product.name);
       product.newProduct = false;
       this.onAddNewProduct(product);
+    } else {
+      this.toastr.warning("Products must have a name before being saved.");
     }
   }
 
