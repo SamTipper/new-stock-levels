@@ -60,7 +60,6 @@ export class ShoppingComponent implements OnInit, OnDestroy{
             this.productService.loadProducts(res.body, "shopping");
             subscription.unsubscribe();
             this.savedShoppingList = this.productService.savedShoppingList;
-            console.log(this.savedShoppingList);
           }
         }
       );
