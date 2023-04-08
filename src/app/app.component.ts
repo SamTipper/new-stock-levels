@@ -39,7 +39,6 @@ export class AppComponent{
 
     this.http.accessEmitter.subscribe(
       (userHasAccess) => {
-        console.log(userHasAccess);
         this.userHasAccess = userHasAccess;
       }
     );

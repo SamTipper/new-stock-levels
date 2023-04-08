@@ -33,7 +33,6 @@ export class ProductService {
 
   addProduct(productName: string, productQuantity: number): void{
     this.products.unshift(new Product(productName, productQuantity, true));
-    console.log(this.products);
     this.productChanges.emit(this.products);
   }
 
