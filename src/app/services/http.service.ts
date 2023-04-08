@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from '../models/product';
 
@@ -7,6 +7,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class HttpService {
+  accessEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private http: HttpClient,
@@ -22,6 +23,27 @@ export class HttpService {
         responseType: "text"
       }
     );
+  }
+
+  checkApiKey(){
+    const apiKeyCheck = 
+      this.http.get(
+        "https://api.samtipper.repl.co/auth-user", 
+        {
+          headers: {"Api-Key": localStorage.getItem("api-key")}, 
+          observe: "response", 
+          responseType: "text"
+        }
+      ).subscribe(
+        (res) => {
+          this.accessEmitter.emit(true);
+          apiKeyCheck.unsubscribe();
+        },
+        (error) => {
+          this.accessEmitter.emit(false);
+          apiKeyCheck.unsubscribe();
+        }
+      );
   }
 
   getProducts(){

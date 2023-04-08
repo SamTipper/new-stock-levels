@@ -8,8 +8,8 @@
 </head>
 <body>
   <mat-toolbar class="toolbar">
-    <span class="margin-right" *ngIf="!stockLength">Stock Levels</span>
-    <span class="margin-right" *ngIf="stockLength">Stock Levels | {{ stockLength }} Unique Products!</span>
+    <span class="margin-right" *ngIf="!stockLength || !userHasAccess">Stock Levels {{ !userHasAccess ? ' | Access Denied' : '' }}</span>
+    <span class="margin-right" *ngIf="stockLength && userHasAccess">Stock Levels | {{ stockLength }} Unique Products!</span>
 
     <span class="route-name">{{ activeRoute | routeTranslate }}</span>
 

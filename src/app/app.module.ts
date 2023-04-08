@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingComponent } from './components/shopping/shopping.component';
 import { AccessComponent } from './components/access/access.component';
 import { RouteTranslatePipe } from './pipes/route-translate.pipe';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { RouteTranslatePipe } from './pipes/route-translate.pipe';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

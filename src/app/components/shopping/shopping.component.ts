@@ -21,6 +21,8 @@ export class ShoppingComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit(): void {
+    this.http.checkApiKey();
+
     this.subscriptions.push(
       this.productService.productChanges.subscribe(
         (products: Product[]) => {

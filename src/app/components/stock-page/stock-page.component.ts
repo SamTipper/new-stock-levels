@@ -33,6 +33,8 @@ export class StockPageComponent implements OnInit, OnDestroy{
     }
 
   ngOnInit(): void{
+    this.http.checkApiKey();
+
     if (!this.productService.products.length){
       this.http.getProducts();
     } else {

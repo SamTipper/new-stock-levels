@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -10,7 +11,9 @@ import { HttpService } from 'src/app/services/http.service';
 export class AccessComponent implements OnInit{
   accessForm: FormGroup;
 
-  constructor(private http: HttpService) { }
+  constructor(
+    private http: HttpService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.accessForm = new FormGroup({
@@ -25,13 +28,23 @@ export class AccessComponent implements OnInit{
           if (res.status === 200){
             localStorage.setItem("api-key", res.body);
             subscription.unsubscribe();
+            this.toastr.success("Authorisation successful!");
+            this.http.checkApiKey();
           }
         },
         (error) => {
+          if (error.status === 401){
+            this.toastr.warning("Invalid API key.");
+          } else {
+            this.toastr.error("An error has occurred, please try again later.");
+          }
           console.log(error);
           subscription.unsubscribe();
+          localStorage.setItem("api-key", "");
+          this.http.checkApiKey();
         }
       );
+    this.accessForm.reset();
   }
 
 }
