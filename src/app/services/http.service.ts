@@ -12,6 +12,18 @@ export class HttpService {
     private http: HttpClient,
     private productService: ProductService) { }
 
+
+  authUser(apiKey: string){
+    return this.http.get(
+      "https://api.samtipper.repl.co/auth-user", 
+      {
+        headers: {"Api-Key": apiKey}, 
+        observe: "response", 
+        responseType: "text"
+      }
+    );
+  }
+
   getProducts(){
     return this.http.get(
       "https://API.samtipper.repl.co/stock-list",
