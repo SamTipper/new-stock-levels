@@ -1,18 +1,41 @@
-.example-full-width {
-    margin-top: 1%;
-    width: 90%;
+@media all and (min-width: 0px) and (max-width: 750px){
+    .example-full-width {
+        margin-top: 1%;
+        width: 70%;
+    }
+    .tick-button{
+        margin-top: 15px;
+        position: absolute;
+        font-size: 30px;
+        height: 30px;
+        width: 30px;
+        cursor: pointer;
+    }
+    .darken-header{
+        color: purple;
+    }
+    .center-text{
+        text-align: center;
+    }
 }
-.tick-button{
-    margin-top: 10px;
-    position: absolute;
-    font-size: 50px;
-    height: 50px ;
-    width: 50px;
-    cursor: pointer;
-}
-.darken-header{
-    color: purple;
-}
-.center-text{
-    text-align: center;
+
+@media all and (min-width: 751px){
+    .example-full-width {
+        margin-top: 1%;
+        width: 90%;
+    }
+    .tick-button{
+        margin-top: 10px;
+        position: absolute;
+        font-size: 50px;
+        height: 50px ;
+        width: 50px;
+        cursor: pointer;
+    }
+    .darken-header{
+        color: purple;
+    }
+    .center-text{
+        text-align: center;
+    }
 }
