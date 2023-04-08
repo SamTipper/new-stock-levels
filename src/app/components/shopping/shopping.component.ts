@@ -11,7 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ShoppingComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = [];
-  products: Product[];
+  products:      Product[];
 
   tableHeaders: string[] = ["Name", "Quantity"];
 

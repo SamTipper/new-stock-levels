@@ -36,11 +36,15 @@ export class HttpService {
         }
       ).subscribe(
         (res) => {
-          this.accessEmitter.emit(true);
+          if (res.status === 200){
+            this.accessEmitter.emit(true);
+          }
           apiKeyCheck.unsubscribe();
         },
         (error) => {
-          this.accessEmitter.emit(false);
+          if (error.status === 401){
+            this.accessEmitter.emit(false);
+          }
           apiKeyCheck.unsubscribe();
         }
       );

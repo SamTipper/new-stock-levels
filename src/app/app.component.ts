@@ -14,7 +14,7 @@ export class AppComponent{
   activeRoute:       string;
   disableButtons:    boolean;
   savedShoppingList: boolean;
-  userHasAccess: boolean = true;
+  userHasAccess:     boolean = true;
 
   constructor(
     private http: HttpService,
