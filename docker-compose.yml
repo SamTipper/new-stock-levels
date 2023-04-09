@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  newStockLevels:
+    build: .
+    volumes:
+      - "/app/node_modules"
+      - ./:/app
+    ports:
+      - 14291:80
+    image: new-stock-levels
