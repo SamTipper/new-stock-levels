@@ -6,5 +6,5 @@ services:
       - "/app/node_modules"
       - ./:/app
     ports:
-      - 14291:80
+      - 14292:80
     image: new-stock-levels
