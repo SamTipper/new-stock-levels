@@ -57,4 +57,11 @@ export class ProductService {
     let newString = string.trim();
     return newString.charAt(0).toUpperCase() + newString.slice(1);
   }
+
+  sortProducts(mode: string): Product[]{
+    const productsCopy = mode === "stock" ? [...this.products] : [...this.shoppingList];
+    return productsCopy.sort(
+      (a, b) => a.name.localeCompare(b.name)
+    );
+  }
 }

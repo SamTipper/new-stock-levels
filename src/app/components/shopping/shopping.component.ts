@@ -65,4 +65,8 @@ export class ShoppingComponent implements OnInit, OnDestroy{
       );
   }
 
+  sortProducts(): Product[]{
+    return this.productService.sortProducts("shopping");
+  }
+
 }

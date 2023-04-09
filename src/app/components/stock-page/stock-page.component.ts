@@ -57,12 +57,6 @@ export class StockPageComponent implements OnInit, OnDestroy{
     );
   }
 
-  sortProducts(){
-    return this.products.sort(
-      (a, b) => a.name.localeCompare(b.name)
-    );
-  }
-
   onAddNewProduct(product: Product): void{
     const newItemSubscription = 
       this.http.addNewItem({item: product.name, quantity: product.quantity})
@@ -112,5 +106,9 @@ export class StockPageComponent implements OnInit, OnDestroy{
       this.productService.deleteProduct(product);
       this.toastr.success("Product deleted successfully!");
     }
+  }
+
+  sortProducts(): Product[]{
+    return this.productService.sortProducts("stock");
   }
 }
