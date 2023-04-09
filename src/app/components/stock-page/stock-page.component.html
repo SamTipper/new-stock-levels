@@ -7,42 +7,40 @@
     <title>Document</title>
 </head>
 <body>
-    
-    <table mat-table [dataSource]="products" class="mat-elevation-z8">
-        <ng-container matColumnDef="Name">
-          <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let product">
-            <span *ngIf="!product.newProduct">
-                {{ product.name }}
-            </span>
-            <mat-form-field class="example-full-width" *ngIf="product.newProduct">
-                <input matInput type="text" placeholder="Product Name" [(ngModel)]="product.name">
-            </mat-form-field>
+  <table mat-table [dataSource]="sortProducts()" class="mat-elevation-z8">
+    <ng-container matColumnDef="Name">
+      <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let product">
+        <span *ngIf="!product.newProduct">
+            {{ product.name }}
+        </span>
+        <mat-form-field class="example-full-width" *ngIf="product.newProduct">
+            <input matInput type="text" placeholder="Product Name" [(ngModel)]="product.name">
             <mat-icon class="tick-button" *ngIf="product.newProduct" (click)="doneEditingProduct(product)">done</mat-icon>
-          </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="Quantity">
-          <th class="darken-header" mat-header-cell *matHeaderCellDef>Quantity</th>
-          <td mat-cell *matCellDef="let product">
-            <mat-form-field class="example-full-width">
-                <input 
-                    class="center-text"
-                    matInput
-                    type="number" 
-                    contenteditable="true"
-                    ngDefaultControl 
-                    [(ngModel)]="product.quantity"
-                    [value]="product.quantity"
-                >
-            </mat-form-field>
-            <mat-icon class="tick-button" (click)="deleteProduct(product)">delete</mat-icon>
-          </td>
-        </ng-container>
+        </mat-form-field>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Quantity">
+      <th class="darken-header" mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let product">
+        <mat-form-field class="example-full-width">
+          <input 
+            class="center-text"
+            matInput
+            type="number" 
+            contenteditable="true"
+            ngDefaultControl 
+            [(ngModel)]="product.quantity"
+            [value]="product.quantity"
+          >
+        </mat-form-field>
+        <mat-icon class="bin-button" (click)="deleteProduct(product)">delete</mat-icon>
+      </td>
+    </ng-container>
 
-      
-        <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
-        <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
-    </table>
+    <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
+    <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
+  </table>
 </body>
 </html>

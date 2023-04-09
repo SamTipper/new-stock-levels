@@ -14,7 +14,7 @@
     <label class="route-name">{{ activeRoute | routeTranslate }}</label>
 
     <div class="button-box">
-      <span *ngIf="activeRoute === '/stock'">
+      <span *ngIf="activeRoute === '/stock' || activeRoute === '/'">
         <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Stock <mat-icon>keyboard_arrow_down</mat-icon></button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="saveProducts()">Save</button>
@@ -22,7 +22,7 @@
         </mat-menu>
       </span>
 
-      <button mat-raised-button color="primary" *ngIf="activeRoute !== '/stock'" [routerLinkActive]="['active']">
+      <button mat-raised-button color="primary" *ngIf="activeRoute !== '/stock' && activeRoute !== '/'" [routerLinkActive]="['active']">
         <span [routerLink]="['stock']">Stock</span>
       </button>
 

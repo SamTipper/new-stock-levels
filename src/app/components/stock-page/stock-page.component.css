@@ -4,6 +4,11 @@
         width: 70%;
     }
     .tick-button{
+        font-size: 30px;
+        height: 30px;
+        width: 30px;
+    }
+    .bin-button{
         margin-top: 15px;
         position: absolute;
         font-size: 30px;
@@ -25,10 +30,19 @@
         width: 90%;
     }
     .tick-button{
+        position: absolute;
+        right: 1%;
+        bottom: 5%;
+        font-size: 50px;
+        height: 50px ;
+        width: 50px;
+        cursor: pointer;
+    }
+    .bin-button{
         margin-top: 10px;
         position: absolute;
         font-size: 50px;
-        height: 50px ;
+        height: 50px;
         width: 50px;
         cursor: pointer;
     }
