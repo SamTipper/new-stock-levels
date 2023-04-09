@@ -13,3 +13,5 @@ RUN npm run build
 FROM nginx:latest
 
 COPY --from=builder /app/dist/new-stock-levels /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/nginx.conf
