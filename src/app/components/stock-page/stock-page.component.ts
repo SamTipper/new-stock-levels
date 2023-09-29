@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product';
@@ -6,6 +6,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { ProductService } from 'src/app/services/product.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-stock-page',
@@ -17,18 +18,23 @@ export class StockPageComponent implements OnInit, OnDestroy{
   products:       Product[] = [];
   newProductForm: FormGroup;
 
+  @ViewChild(MatTable, { static: true }) table: MatTable<Product>;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<Product>();
   tableHeaders: string[] = ["Name", "Quantity"];
-  @ViewChild(MatTable) table: MatTable<Product>;
+
 
   constructor(
     private http: HttpService,
     private productService: ProductService,
     private toastr: ToastrService){
+
       this.subscriptions.push(
         this.productService.productChanges.subscribe(
           (products: Product[]) => {
             this.products = products;
-            this.table.renderRows();
+            this.dataSource = new MatTableDataSource<Product>(this.sortProducts().slice(0, 10));
+            console.log(this.dataSource);
           }
         )
       );
@@ -41,6 +47,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
       this.http.getProducts();
     } else {
       this.products = this.productService.products;
+      this.dataSource = new MatTableDataSource<Product>(this.sortProducts().slice(0, 10));
     }
 
     this.newProductForm = new FormGroup({
@@ -51,9 +58,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(
-      (subscription) => {
-        subscription.unsubscribe();
-      }
+      (subscription) => subscription.unsubscribe()
     );
   }
 
@@ -110,5 +115,16 @@ export class StockPageComponent implements OnInit, OnDestroy{
 
   sortProducts(): Product[]{
     return this.productService.sortProducts("stock");
+  }
+
+  pageChangeEvent(event: PageEvent): void {
+    console.log(event);
+    this.paginator.pageIndex = event.pageIndex;
+    this.paginator.pageSize = event.pageSize;
+
+    this.dataSource = new MatTableDataSource<Product>(
+      this.sortProducts().slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
+    );
+    
   }
 }
