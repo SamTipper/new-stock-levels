@@ -135,6 +135,12 @@ export class StockPageComponent implements OnInit, OnDestroy{
 
   toggleOutOfStockItems(): void {
     this.outOfStockItems = !this.outOfStockItems;
+
+    if (this.searchForm.valid) {
+      this.searchForProduct();
+      return;
+    }
+
     this.productService.productChanges.emit(
       this.outOfStockItems ? this.productService.products : this.productService.products.filter(product => product.quantity > 0)
     );
@@ -159,7 +165,10 @@ export class StockPageComponent implements OnInit, OnDestroy{
       .map(product => product['item']['name']);
 
     this.productService.productChanges.emit(
-      this.productService.products.filter(product => results.includes(product.name))
+      this.outOfStockItems ? 
+        this.productService.products.filter(product => results.includes(product.name)) 
+        : 
+        this.productService.products.filter(product => results.includes(product.name) && product.quantity > 0) 
     );
   }
 }
