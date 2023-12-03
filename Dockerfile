@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM --platform=$BUILDPLATFORM node:latest as builder
 
 WORKDIR /app
 
@@ -12,4 +12,4 @@ RUN npm run build
 
 FROM httpd:2.4
 
-COPY --from=builder /app/dist/new-stock-levels /usr/local/apache2/htdocs
+COPY --platform=$TARGETPLATFORM --from=builder /app/dist/new-stock-levels /usr/local/apache2/htdocs
