@@ -53,3 +53,14 @@
         text-align: center;
     }
 }
+
+.paginator {
+    position: sticky;
+    bottom: 0%;
+}
+
+.float-right {
+    float: right;
+    padding: 10px;
+    margin-right: 2vw;
+}

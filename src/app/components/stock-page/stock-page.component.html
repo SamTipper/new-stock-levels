@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+  <mat-slide-toggle class="float-right" [checked]="outOfStockItems" (click)="toggleOutOfStockItems()">Out of Stock Items</mat-slide-toggle>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="Name">
       <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
@@ -45,6 +46,7 @@
 
   <mat-paginator 
     #paginator
+    class="paginator"
     [length]="this.products.length"
     [pageSize]="this.dataSource.filteredData.length"
     [pageSizeOptions]="[5, 10, 25, 100]"

@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { StockPageComponent } from './components/stock-page/stock-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingComponent } from './components/shopping/shopping.component';
@@ -45,7 +46,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatFormFieldModule,
     MatIconModule,
     MatMenuModule,
-    MatSortModule
+    MatSortModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -19,10 +19,10 @@ export class ProductService {
     for (const [name, quantity] of Object.entries(productsObj)){
       if (name !== 'version'){
         if (mode === "stock"){
-          this.products.push(new Product(name, quantity, false));
+          this.products.push(new Product(name, Number(quantity), false));
         } 
         else if (mode === "shopping"){
-          this.shoppingList.push(new Product(name, quantity, false));
+          this.shoppingList.push(new Product(name, Number(quantity), false));
         }
       } else {
         this.savedShoppingList = quantity; // Is a boolean
@@ -58,9 +58,8 @@ export class ProductService {
     return newString.charAt(0).toUpperCase() + newString.slice(1);
   }
 
-  sortProducts(mode: string): Product[]{
-    const productsCopy = mode === "stock" ? [...this.products] : [...this.shoppingList];
-    return productsCopy.sort(
+  sortProducts(products: Product[]): Product[]{
+    return products.sort(
       (a, b) => a.name.localeCompare(b.name)
     );
   }

@@ -14,9 +14,10 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   styleUrls: ['./stock-page.component.css']
 })
 export class StockPageComponent implements OnInit, OnDestroy{
-  subscriptions:  Subscription[] = [];
-  products:       Product[] = [];
-  newProductForm: FormGroup;
+  subscriptions:   Subscription[] = [];
+  products:        Product[] = [];
+  newProductForm:  FormGroup;
+  outOfStockItems: boolean = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<Product>;
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
@@ -33,8 +34,8 @@ export class StockPageComponent implements OnInit, OnDestroy{
         this.productService.productChanges.subscribe(
           (products: Product[]) => {
             this.products = products;
-            this.dataSource = new MatTableDataSource<Product>(this.sortProducts().slice(0, 10));
-            console.log(this.dataSource);
+            this.dataSource = new MatTableDataSource<Product>(this.sortProducts(this.products).slice(0, 10));
+            console.log(this.products, this.dataSource);
           }
         )
       );
@@ -47,7 +48,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
       this.http.getProducts();
     } else {
       this.products = this.productService.products;
-      this.dataSource = new MatTableDataSource<Product>(this.sortProducts().slice(0, 10));
+      this.dataSource = new MatTableDataSource<Product>(this.sortProducts(this.products).slice(0, 10));
     }
 
     this.newProductForm = new FormGroup({
@@ -113,18 +114,24 @@ export class StockPageComponent implements OnInit, OnDestroy{
     }
   }
 
-  sortProducts(): Product[]{
-    return this.productService.sortProducts("stock");
+  sortProducts(products: Product[]): Product[]{
+    return this.productService.sortProducts(products);
   }
 
   pageChangeEvent(event: PageEvent): void {
-    console.log(event);
     this.paginator.pageIndex = event.pageIndex;
     this.paginator.pageSize = event.pageSize;
 
     this.dataSource = new MatTableDataSource<Product>(
-      this.sortProducts().slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
+      this.sortProducts(this.products).slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
     );
     
+  }
+
+  toggleOutOfStockItems(): void {
+    this.outOfStockItems = !this.outOfStockItems;
+    this.productService.productChanges.emit(
+      this.outOfStockItems ? this.productService.products : this.productService.products.filter(product => product.quantity > 0)
+    );
   }
 }
