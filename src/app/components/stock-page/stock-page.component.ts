@@ -21,6 +21,13 @@ export class StockPageComponent implements OnInit, OnDestroy{
   searchForm:      FormGroup;
   outOfStockItems: boolean = true;
 
+  fuse = new Fuse(
+    this.productService.products, {
+    keys: ['name'],
+    includeScore: true,
+    threshold: 0.4
+  });
+
   @ViewChild(MatTable, { static: true }) table: MatTable<Product>;
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   dataSource = new MatTableDataSource<Product>();
@@ -37,6 +44,12 @@ export class StockPageComponent implements OnInit, OnDestroy{
           (products: Product[]) => {
             this.products = products;
             this.dataSource = new MatTableDataSource<Product>(this.sortProducts(this.products).slice(0, 10));
+            this.fuse = new Fuse(
+              this.productService.products, {
+              keys: ['name'],
+              includeScore: true,
+              threshold: 0.4
+            });
           }
         )
       );
@@ -154,14 +167,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
       return;
     }
 
-    const options = {
-      keys: ['name'],
-      includeScore: true,
-      threshold: 0.4
-    };
-
-    const fuse = new Fuse(this.productService.products, options);
-    const results = fuse.search(this.searchForm.value.toSearch)
+    const results = this.fuse.search(this.searchForm.value.toSearch)
       .map(product => product['item']['name']);
 
     this.productService.productChanges.emit(
