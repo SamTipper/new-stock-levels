@@ -1,9 +1,10 @@
-
-<form [formGroup]="searchForm">
-  <input class="search-bar" formControlName="toSearch" type="text" placeholder="Search..." (input)="searchForProduct()">
-</form>
-
-<mat-slide-toggle class="float-right" color="secondary" [checked]="outOfStockItems" (click)="toggleOutOfStockItems()">Out of Stock Items</mat-slide-toggle>
+<div class="filters-bar">
+  <form [formGroup]="searchForm">
+    <input class="search-bar" formControlName="toSearch" type="text" placeholder="Search..." (input)="searchForProduct()">
+  </form>
+  
+  <mat-slide-toggle class="float-right" color="secondary" [checked]="outOfStockItems" (click)="toggleOutOfStockItems()">Out of Stock Items</mat-slide-toggle>
+</div>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="Name">
