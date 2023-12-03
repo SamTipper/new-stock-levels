@@ -16,6 +16,8 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Create context
         run: |
+          # Clean up any existing context
+          docker context rm builder -f || true
           docker context create builder
           docker context use builder
       - name: Set up Docker Buildx
