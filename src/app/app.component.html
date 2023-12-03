@@ -1,50 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <mat-toolbar class="toolbar">
-    <label class="margin-right" *ngIf="!stockLength || !userHasAccess">Stock Levels {{ !userHasAccess ? ' | Access Denied' : '' }}</label>
-    <label class="margin-right" *ngIf="stockLength && userHasAccess">Stock Levels | {{ stockLength }} Unique Products!</label>
+<mat-toolbar class="toolbar">
+  <label class="margin-right" *ngIf="!stockLength || !userHasAccess">Stock Levels {{ !userHasAccess ? ' | Access Denied' : '' }}</label>
+  <label class="margin-right" *ngIf="stockLength && userHasAccess">Stock Levels | {{ stockLength }} Products!</label>
 
-    <label class="route-name">{{ activeRoute | routeTranslate }}</label>
+  <label class="route-name">{{ activeRoute | routeTranslate }}</label>
 
-    <div class="button-box">
-      <span *ngIf="activeRoute === '/stock' || activeRoute === '/'">
-        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Stock <mat-icon>keyboard_arrow_down</mat-icon></button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="saveProducts()">Save</button>
-          <button mat-menu-item (click)="addBlankProduct()">Add Product</button>
-        </mat-menu>
-      </span>
+  <div class="button-box">
+    <span *ngIf="activeRoute === '/stock' || activeRoute === '/'">
+      <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Stock <mat-icon>keyboard_arrow_down</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="saveProducts()">Save</button>
+        <button mat-menu-item (click)="addBlankProduct()">Add Product</button>
+      </mat-menu>
+    </span>
 
-      <button mat-raised-button color="primary" *ngIf="activeRoute !== '/stock' && activeRoute !== '/'" [routerLinkActive]="['active']">
-        <span [routerLink]="['stock']">Stock</span>
-      </button>
+    <button mat-raised-button color="primary" *ngIf="activeRoute !== '/stock' && activeRoute !== '/'" [routerLinkActive]="['active']">
+      <span [routerLink]="['stock']">Stock</span>
+    </button>
 
-      <span *ngIf="activeRoute === '/shopping'">
-        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Shopping <mat-icon>keyboard_arrow_down</mat-icon></button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item [disabled]="savedShoppingList" (click)="saveShoppingList()">Save</button>
-          <button mat-menu-item [disabled]="!savedShoppingList" (click)="resetShoppingList()">Reset</button>
-          <button mat-menu-item [disabled]="!savedShoppingList" (click)="submitShopping()">Shopping Done</button>
-        </mat-menu>
-      </span>
-        
-      <button mat-raised-button color="primary" *ngIf="activeRoute !== '/shopping'" [routerLinkActive]="['active']">
-        <span [routerLink]="['shopping']">Shopping</span>
-      </button>
-      <button mat-raised-button color="primary" [routerLinkActive]="['active']">
-        <span [routerLink]="['access']">Access</span>
-      </button>
-    </div>
+    <span *ngIf="activeRoute === '/shopping'">
+      <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Shopping <mat-icon>keyboard_arrow_down</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [disabled]="savedShoppingList" (click)="saveShoppingList()">Save</button>
+        <button mat-menu-item [disabled]="!savedShoppingList" (click)="resetShoppingList()">Reset</button>
+        <button mat-menu-item [disabled]="!savedShoppingList" (click)="submitShopping()">Shopping Done</button>
+      </mat-menu>
+    </span>
+      
+    <button mat-raised-button color="primary" *ngIf="activeRoute !== '/shopping'" [routerLinkActive]="['active']">
+      <span [routerLink]="['shopping']">Shopping</span>
+    </button>
+    <button mat-raised-button color="primary" [routerLinkActive]="['active']">
+      <span [routerLink]="['access']">Access</span>
+    </button>
+  </div>
 
-  </mat-toolbar>
+</mat-toolbar>
 
-  <router-outlet></router-outlet>
-</body>
-</html>
+<router-outlet></router-outlet>

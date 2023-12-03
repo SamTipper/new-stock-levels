@@ -7,6 +7,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import Fuse from 'fuse.js';
 
 @Component({
   selector: 'app-stock-page',
@@ -17,6 +18,7 @@ export class StockPageComponent implements OnInit, OnDestroy{
   subscriptions:   Subscription[] = [];
   products:        Product[] = [];
   newProductForm:  FormGroup;
+  searchForm:      FormGroup;
   outOfStockItems: boolean = true;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<Product>;
@@ -35,7 +37,6 @@ export class StockPageComponent implements OnInit, OnDestroy{
           (products: Product[]) => {
             this.products = products;
             this.dataSource = new MatTableDataSource<Product>(this.sortProducts(this.products).slice(0, 10));
-            console.log(this.products, this.dataSource);
           }
         )
       );
@@ -54,6 +55,10 @@ export class StockPageComponent implements OnInit, OnDestroy{
     this.newProductForm = new FormGroup({
       productName: new FormControl(null, Validators.required),
       productQuantity: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")])
+    });
+
+    this.searchForm = new FormGroup({
+      toSearch: new FormControl(null, Validators.required),
     });
   }
 
@@ -132,6 +137,29 @@ export class StockPageComponent implements OnInit, OnDestroy{
     this.outOfStockItems = !this.outOfStockItems;
     this.productService.productChanges.emit(
       this.outOfStockItems ? this.productService.products : this.productService.products.filter(product => product.quantity > 0)
+    );
+  }
+
+  searchForProduct(): void {
+    if (!this.searchForm.valid) {
+      this.productService.productChanges.emit(
+        this.outOfStockItems ? this.productService.products : this.productService.products.filter(product => product.quantity > 0)
+      );
+      return;
+    }
+
+    const options = {
+      keys: ['name'],
+      includeScore: true,
+      threshold: 0.4
+    };
+
+    const fuse = new Fuse(this.productService.products, options);
+    const results = fuse.search(this.searchForm.value.toSearch)
+      .map(product => product['item']['name']);
+
+    this.productService.productChanges.emit(
+      this.productService.products.filter(product => results.includes(product.name))
     );
   }
 }

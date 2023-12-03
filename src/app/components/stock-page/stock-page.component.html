@@ -1,57 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-  <mat-slide-toggle class="float-right" [checked]="outOfStockItems" (click)="toggleOutOfStockItems()">Out of Stock Items</mat-slide-toggle>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="Name">
-      <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let product">
-        <span *ngIf="!product.newProduct">
-            {{ product.name }}
-        </span>
-        <mat-form-field class="example-full-width" *ngIf="product.newProduct">
-            <input matInput type="text" placeholder="Product Name" [(ngModel)]="product.name">
-            <mat-icon class="tick-button" *ngIf="product.newProduct" (click)="doneEditingProduct(product)">done</mat-icon>
-        </mat-form-field>
-      </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="Quantity">
-      <th class="darken-header" mat-header-cell *matHeaderCellDef>Quantity</th>
-      <td mat-cell *matCellDef="let product">
-        <mat-form-field class="example-full-width">
-          <input 
-            class="center-text"
-            matInput
-            type="number" 
-            contenteditable="true"
-            ngDefaultControl 
-            [(ngModel)]="product.quantity"
-            [value]="product.quantity"
-          >
-        </mat-form-field>
-        <mat-icon class="bin-button" (click)="deleteProduct(product)">delete</mat-icon>
-      </td>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
-    <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
-  </table>
+<form [formGroup]="searchForm">
+  <input class="search-bar" formControlName="toSearch" type="text" placeholder="Search..." (input)="searchForProduct()">
+</form>
 
-  <mat-paginator 
-    #paginator
-    class="paginator"
-    [length]="this.products.length"
-    [pageSize]="this.dataSource.filteredData.length"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    (page)="pageChangeEvent($event)"
-    aria-label="Select page">
-  </mat-paginator>  
-</body>
-</html>
+<mat-slide-toggle class="float-right" color="secondary" [checked]="outOfStockItems" (click)="toggleOutOfStockItems()">Out of Stock Items</mat-slide-toggle>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="Name">
+    <th class="darken-header" mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let product">
+      <span *ngIf="!product.newProduct">
+          {{ product.name }}
+      </span>
+      <mat-form-field class="example-full-width" *ngIf="product.newProduct">
+        <input matInput type="text" placeholder="Product Name" [(ngModel)]="product.name">
+        <mat-icon class="tick-button" *ngIf="product.newProduct" (click)="doneEditingProduct(product)">done</mat-icon>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Quantity">
+    <th class="darken-header" mat-header-cell *matHeaderCellDef>Quantity</th>
+    <td mat-cell *matCellDef="let product">
+      <mat-form-field class="example-full-width">
+        <input 
+          class="center-text"
+          matInput
+          type="number" 
+          contenteditable="true"
+          ngDefaultControl 
+          [(ngModel)]="product.quantity"
+          [value]="product.quantity"
+        >
+      </mat-form-field>
+      <mat-icon class="bin-button" (click)="deleteProduct(product)">delete</mat-icon>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="tableHeaders"></tr>
+  <tr mat-row *matRowDef="let row; columns: tableHeaders;"></tr>
+</table>
+
+<mat-paginator 
+  #paginator
+  class="paginator"
+  [length]="this.products.length"
+  [pageSize]="this.dataSource.filteredData.length"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  (page)="pageChangeEvent($event)"
+  aria-label="Select page">
+</mat-paginator>  
